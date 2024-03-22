@@ -1,0 +1,357 @@
+{\rtf1\ansi\ansicpg1252\deff0\nouicompat\deflang1046{\fonttbl{\f0\fnil\fcharset0 Calibri-Bold;}{\f1\fnil\fcharset0 Calibri;}{\f2\fnil\fcharset0 Calibri-Italic;}}
+{\colortbl ;\red89\green52\blue148;\red0\green0\blue0;\red0\green255\blue255;\red0\green77\blue187;\red0\green64\blue0;}
+{\*\generator Riched20 10.0.19041}\viewkind4\uc1 
+\pard\sl240\slmult1\qj\b\f0\fs32\lang22 TEMA 08 - Tipos de Cookies e Sess\'f5es\par
+\par
+\cf1\fs28 8.1 Introdu\'e7\'e3o sobre seguran\'e7a usando cookies e Sess\'f5es\par
+\par
+\cf2\b0\f1\fs22 Os \highlight3\b cookies s\'e3o arquivos gerados pelo servidor web respons\'e1vel por gerenciar e guardar os sites\highlight0\b0 . S\'e3o arquivos como fotos, v\'eddeo e texto usando uma mem\'f3ria local do seu navegador, cookies nada mais \'e9 que peda\'e7os de sites, que acessamos diariamente.\par
+\par
+\b Sess\'e3o ou tamb\'e9m chamada de \i\f2 session \i0\f1 ou vari\'e1vel de sess\'e3o \'e9 muito parecido com a sess\'e3o de login usado nos sistemas operacionais\b0 , seria uma esp\'e9cie de seguran\'e7a onde as informa\'e7\'f5es, s\'e3o armazenados em um local da mem\'f3ria e podendo ser usado em qualquer lugar da tela. \ul As vari\'e1veis de sess\'e3o armazenam informa\'e7\'f5es sobre um \'fanico usu\'e1rio e est\'e3o dispon\'edveis para todas as p\'e1ginas em um \'fanico aplicativo\ulnone . Exemplo \highlight3\b cl\'e1ssico de sess\'e3o \'e9 o carrinho de compra\highlight0\b0 , em um site de e-commerce, uma esp\'e9cie de vari\'e1vel que n\'e3o usa a base de dados e sim a \b mem\'f3ria do navegador\b0 .\par
+\par
+\cf1\b\f0\fs28 8.2 Defini\'e7\'e3o de cookies e aplicando\par
+\cf2\b0\f1\fs22 Uma defini\'e7\'e3o precisa de cookies se assemelha \highlight3\b a pequenos fragmentos de dados de um site ou sistema que s\'e3o armazenados em seu navegador\highlight0\b0 . Quando voc\'ea volta a acessar esse site, eles ajudam a acelerar o processamento das informa\'e7\'f5es. Vamos explorar como aplic\'e1-los em nosso sistema utilizando a linguagem PHP.\par
+\par
+\cf1\fs26 Como aplicar o cookies:\par
+\cf2\fs22 Vamos usar a \highlight3\b fun\'e7\'e3o setcookies(), ou da fun\'e7\'e3o strawcookies()\highlight0\b0  que \'e9 nativo do PHP definido antes de qualquer sa\'edda porque faz parte do HTTP, do sistema WEB. \par
+\par
+\cf4\b <?php\par
+// Define um cookie chamado "usuario" com o valor "joao" e expira em 5 segundos\par
+setcookie("usuario", "joao", time() + 5);\par
+?>\par
+\b0\par
+<!DOCTYPE html>\par
+<html lang="en">\par
+<head>\par
+    <meta charset="UTF-8">\par
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\par
+    <title>Exemplo de Cookies em PHP</title>\par
+</head>\par
+<body>\par
+    <h1>Exemplo de Cookies em PHP</h1>\par
+\b     <?php\par
+    // Verifica se o cookie "usuario" est\'e1 definido\par
+    if (isset($_COOKIE["usuario"])) \{\par
+        echo "<p>Bem-vindo, " . $_COOKIE["usuario"] . "!</p>";\par
+    \} else \{\par
+        echo "<p>Ol\'e1, visitante!</p>";\par
+    \}\par
+    ?>\par
+\b0 </body>\par
+</html>\b\f0\fs32\par
+\cf0\b0\f1\fs22\par
+Neste c\'f3digo PHP:\par
+\par
+\b\fs24 setcookie("usuario", "joao", time() + 5);\b0\fs22 : Define um cookie chamado "usuario" com o valor "joao" e define o tempo de expira\'e7\'e3o para 5 segundos.\par
+\par
+\b\fs24 if (isset($_COOKIE["usuario"])) \{ ... \} else \{ ... \}\b0\fs22 : Verifica se o cookie "usuario" est\'e1 definido. Se estiver, uma mensagem de boas-vindas \'e9 exibida com o valor do cookie. Caso contr\'e1rio, uma mensagem gen\'e9rica de sauda\'e7\'e3o \'e9 exibida.\par
+\par
+\cf4 <!DOCTYPE html>\par
+<html lang\b ="<?php echo isset($_COOKIE['idioma']) && $_COOKIE['idioma'] === 'ingles' ? 'en' : 'pt'; ?>\b0 ">\par
+<head>\par
+    <meta charset="UTF-8">\par
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\par
+    <title>Prefer\'eancias de Cookies</title>\par
+    <style>\par
+        body \{\par
+            \b <?php if(isset($_COOKIE['tema']) && $_COOKIE['tema'] === 'escuro'): ?>\par
+\b0                 background-color: #333;\par
+                color: #fff;\b\par
+            <?php else: ?>\par
+\b0                 background-color: #f4f4f4;\par
+                color: #333;\b\par
+            <?php endif; ?>\par
+\b0         \}\par
+    </style>\par
+</head>\par
+<body>\par
+    <h1>Prefer\'eancias de Cookies</h1>\b\par
+    <?php\par
+    // Verifica se o formul\'e1rio foi submetido\par
+    if ($_SERVER["REQUEST_METHOD"] == "POST") \{\par
+        // Obt\'e9m os valores do formul\'e1rio\par
+        $tema = $_POST["tema"];\par
+        $idioma = $_POST["idioma"];\par
+\par
+        // Define os cookies com as prefer\'eancias do usu\'e1rio\par
+        setcookie("tema", $tema, time() + (30 * 24 * 60 * 60)); // Expira em 30 dias\par
+        setcookie("idioma", $idioma, time() + (30 * 24 * 60 * 60)); // Expira em 30 dias\par
+\par
+        // Exibe uma mensagem de sucesso\par
+        $mensagem = $idioma === 'ingles' ? 'Cookie preferences saved successfully!' : 'Prefer\'eancias de cookies salvas com sucesso!';\par
+    \}\par
+    ?>\par
+\b0\par
+    <p>\b <?php echo isset($_COOKIE['idioma']) && $_COOKIE['idioma'] === 'ingles' ? 'This website uses cookies to enhance your experience. Choose your preferences below:' : 'Este site utiliza cookies para melhorar a sua experi\'eancia. Escolha suas prefer\'eancias abaixo:'; ?>\b0 </p>\par
+    <form method="post" action\b =\b0 "\b <?php echo $_SERVER["PHP_SELF"]; ?>\b0 ">\par
+        <label>Tema:\par
+            <select name="tema">\par
+                <option value="claro">Claro</option>\par
+                <option value="escuro">Escuro</option>\par
+            </select>\par
+        </label><br>\par
+        <label>Idioma:\par
+            <select name="idioma">\par
+                <option value="portugues">Portugu\'eas</option>\par
+                <option value="ingles">English</option>\par
+            </select>\par
+        </label><br>\par
+        <input type="submit" value\b ="<?php echo isset($_COOKIE['idioma']) && $_COOKIE['idioma'] === 'ingles' ? 'Save Preferences' : 'Salvar Prefer\'eancias'; ?>\b0 ">\par
+    </form>\par
+\par
+\b     <?php\par
+    // Exibe a mensagem de sucesso ap\'f3s salvar as prefer\'eancias de cookies\par
+    if (isset($mensagem)) \{\par
+        echo "<p>$mensagem</p>";\par
+    \}\par
+\par
+    // Exibe as prefer\'eancias de cookies atuais se estiverem definidas\par
+    if (isset($_COOKIE["tema"]) && isset($_COOKIE["idioma"])) \{\par
+        echo "<h2>" . ($_COOKIE['idioma'] === 'ingles' ? 'Current Preferences:' : 'Prefer\'eancias Atuais:') . "</h2>";\par
+        echo "<p>" . ($_COOKIE['idioma'] === 'ingles' ? 'Theme: ' : 'Tema: ') . $_COOKIE["tema"] . "</p>";\par
+        echo "<p>" . ($_COOKIE['idioma'] === 'ingles' ? 'Language: ' : 'Idioma: ') . $_COOKIE["idioma"] . "</p>";\par
+    \}\par
+    ?>\par
+\b0 </body>\par
+</html>\par
+\par
+\cf2\b Explicando cada parte do c\'f3digo PHP:\par
+\b0\par
+\b 1. `<?php echo isset($_COOKIE['idioma']) && $_COOKIE['idioma'] === 'ingles' ? 'en' : 'pt'; ?>`\b0 : Esta linha define o atributo `lang` do elemento `<html>` com base no valor do cookie "idioma". Se o idioma for "ingles", o atributo `lang` ser\'e1 definido como "en" para ingl\'eas. Caso contr\'e1rio, ser\'e1 definido como "pt" para portugu\'eas.\par
+\par
+\b 2. `<?php if(isset($_COOKIE['tema']) && $_COOKIE['tema'] === 'escuro'): ?> ... <?php else: ?> ... <?php endif; ?>`\b0 : Este \'e9 um bloco condicional em PHP que define o estilo CSS do elemento `<body>` com base no valor do cookie "tema". Se o tema for "escuro", o corpo ter\'e1 um fundo escuro e texto claro. Caso contr\'e1rio, ter\'e1 um fundo claro e texto escuro.\par
+\par
+\b 3. `if ($_SERVER["REQUEST_METHOD"] == "POST") \{ ... \}`:\b0  Este \'e9 um bloco condicional que verifica se o formul\'e1rio foi submetido via m\'e9todo POST.\par
+\par
+\b 4. `setcookie("tema", $tema, time() + (30 * 24 * 60 * 60));\b0 `: Esta linha define um cookie chamado "tema" com o valor selecionado pelo usu\'e1rio no formul\'e1rio. O tempo de expira\'e7\'e3o \'e9 definido como 30 dias a partir do momento em que o cookie \'e9 definido.\par
+\par
+\b 5. `setcookie("idioma", $idioma, time() + (30 * 24 * 60 * 60));`\b0 : Esta linha define um cookie chamado "idioma" com o valor selecionado pelo usu\'e1rio no formul\'e1rio. O tempo de expira\'e7\'e3o \'e9 definido como 30 dias a partir do momento em que o cookie \'e9 definido.\par
+\par
+\b 6. `$mensagem = $idioma === 'ingles' ? 'Cookie preferences saved successfully!' : 'Prefer\'eancias de cookies salvas com sucesso!';`\b0 : Esta linha define uma mensagem de sucesso para ser exibida ap\'f3s salvar as prefer\'eancias de cookies. A mensagem \'e9 exibida em ingl\'eas se o idioma selecionado for "ingles", caso contr\'e1rio, ser\'e1 exibida em portugu\'eas.\par
+\par
+\b 7. `<?php echo isset($_COOKIE['idioma']) && $_COOKIE['idioma'] === 'ingles' ? 'This website uses cookies to enhance your experience. Choose your preferences below:' : 'Este site utiliza cookies para melhorar a sua experi\'eancia. Escolha suas prefer\'eancias abaixo:'; ?>`\b0 : Esta linha exibe uma mensagem no par\'e1grafo `<p>` explicando a finalidade dos cookies. A mensagem \'e9 exibida em ingl\'eas se o idioma selecionado for "ingles", caso contr\'e1rio, ser\'e1 exibida em portugu\'eas.\par
+\par
+\b 8. `<?php echo isset($_COOKIE['idioma']) && $_COOKIE['idioma'] === 'ingles' ? 'Save Preferences' : 'Salvar Prefer\'eancias'; ?>`\b0 : Este \'e9 o valor do atributo `value` do bot\'e3o de envio do formul\'e1rio. Se o idioma selecionado for "ingles", o bot\'e3o exibir\'e1 "Save Preferences". Caso contr\'e1rio, exibir\'e1 "Salvar Prefer\'eancias".\par
+\par
+\b 9. `if (isset($mensagem)) \{ ... \}`\b0 : Este \'e9 um bloco condicional que verifica se a vari\'e1vel `$mensagem` est\'e1 definida. Se estiver, exibe a mensagem de sucesso ap\'f3s salvar as prefer\'eancias de cookies.\par
+\par
+\b 10. `if (isset($_COOKIE["tema"]) && isset($_COOKIE["idioma"])) \{ ... \}`\b0 : Este \'e9 um bloco condicional que verifica se os cookies "tema" e "idioma" est\'e3o definidos. Se estiverem, exibe as prefer\'eancias de cookies atuais na p\'e1gina.\par
+\par
+\cf1\b\f0\fs28 8.3 Defini\'e7\'e3o de sess\'e3o e aplicando\par
+\cf0\b0\f1\fs22 Sess\'e3o \'e9 uma vari\'e1vel que guarda um valor logo no in\'edcio na aplica\'e7\'e3o e pode ser usada em qualquer lugar da aplica\'e7\'e3o, muito \'fatil para trabalhar com seguran\'e7a de dados.\par
+\line\b\fs24 index.php\par
+\b0\fs22\par
+\cf4\b <?php\par
+// Iniciar a sess\'e3o\par
+session_start();\par
+\par
+// Verificar se o usu\'e1rio est\'e1 logado, caso contr\'e1rio redirecionar para a p\'e1gina de login\par
+if(!isset($_SESSION['usuario'])) \{\par
+    header("Location: login.php");\par
+    exit;\par
+\}\par
+\par
+// Atribuir um valor \'e0 vari\'e1vel de sess\'e3o 'usuario'\par
+$_SESSION['usuario'] = "exemplo_usuario";\par
+\par
+// Exibir o nome do usu\'e1rio armazenado na vari\'e1vel de sess\'e3o\par
+echo "Bem-vindo, " . $_SESSION['usuario'];\par
+\par
+// Bot\'e3o para realizar o logout\par
+echo "<form action='logout.php' method='post'>";\par
+echo "<input type='submit' value='Logout'>";\par
+echo "</form>";\par
+?>\par
+\b0\par
+\cf0\b C\'f3digo PHP passo a passo:\par
+\b0\par
+\b 1. `session_start();`: \b0 Esta fun\'e7\'e3o inicia ou resume uma sess\'e3o existente. No contexto deste c\'f3digo, ela \'e9 usada para iniciar a sess\'e3o e permitir o armazenamento de vari\'e1veis de sess\'e3o, como o nome do usu\'e1rio.\par
+\par
+\b 2. `if(!isset($_SESSION['usuario'])) \{ header("Location: login.php"); exit; \}`:\b0  Este trecho de c\'f3digo verifica se a vari\'e1vel de sess\'e3o `$_SESSION['usuario']` est\'e1 definida. Se n\'e3o estiver, isso significa que o usu\'e1rio n\'e3o est\'e1 logado, ent\'e3o o c\'f3digo redireciona o usu\'e1rio para a p\'e1gina de login (`login.php`) utilizando a fun\'e7\'e3o `header("Location: login.php")`, e ent\'e3o o script \'e9 encerrado com `exit;`. Essa verifica\'e7\'e3o \'e9 importante para garantir que \ul\b apenas usu\'e1rios autenticados tenham acesso \'e0 p\'e1gina inicial (`index.php`)\ulnone\b0 .\par
+\par
+\b 3. `$_SESSION['usuario'] = "exemplo_usuario";`: \b0 Este trecho de c\'f3digo atribui um valor \'e0 vari\'e1vel de sess\'e3o `$_SESSION['usuario']`. Neste caso, \'e9 atribu\'eddo o valor "exemplo_usuario". Geralmente, esse valor seria obtido do processo de autentica\'e7\'e3o do usu\'e1rio, como login bem-sucedido.\par
+\par
+\b 4. `echo "Bem-vindo, " . $_SESSION['usuario'];`:\b0  Este comando exibe uma mensagem de boas-vindas na p\'e1gina, incluindo o nome do usu\'e1rio armazenado na vari\'e1vel de sess\'e3o `$_SESSION['usuario']`.\par
+\par
+5. O trecho de c\'f3digo seguinte cria um formul\'e1rio HTML com um bot\'e3o de submiss\'e3o. Esse formul\'e1rio \'e9 usado para permitir que o usu\'e1rio fa\'e7a logout. Quando o bot\'e3o "Logout" \'e9 clicado, o formul\'e1rio \'e9 submetido ao arquivo `logout.php`, onde a sess\'e3o ser\'e1 destru\'edda.\par
+\par
+\b Esse c\'f3digo PHP mostra como voc\'ea pode controlar o acesso \'e0s p\'e1ginas do seu site, garantindo que apenas usu\'e1rios autenticados tenham acesso \'e0 p\'e1gina inicial e fornecendo um meio para que os usu\'e1rios fa\'e7am logout quando necess\'e1rio.\par
+\cf4\b0\par
+\par
+\cf0\b\fs24 login.php\par
+\cf4\b0\fs22\par
+\b <?php\par
+// Iniciar a sess\'e3o\par
+session_start();\par
+\par
+// Verificar se o formul\'e1rio de login foi submetido\par
+if ($_SERVER["REQUEST_METHOD"] == "POST") \{\par
+    // Verificar se os campos de usu\'e1rio e senha foram preenchidos\par
+    if (isset($_POST['usuario']) && isset($_POST['senha'])) \{\par
+        // Verificar se as credenciais s\'e3o v\'e1lidas (isso \'e9 apenas um exemplo, substitua por sua l\'f3gica de autentica\'e7\'e3o real)\par
+        $usuario_valido = "usuario"; // Usu\'e1rio v\'e1lido\par
+        $senha_valida = "senha"; // Senha v\'e1lida\par
+\par
+        // Verificar se as credenciais fornecidas correspondem \'e0s credenciais v\'e1lidas\par
+        if ($_POST['usuario'] == $usuario_valido && $_POST['senha'] == $senha_valida) \{\par
+            // Se as credenciais forem v\'e1lidas, redirecionar para a p\'e1gina principal e armazenar o nome do usu\'e1rio na sess\'e3o\par
+            $_SESSION['usuario'] = $_POST['usuario'];\par
+            header("Location: index.php");\par
+            exit;\par
+        \} else \{\par
+            // Se as credenciais forem inv\'e1lidas, exibir uma mensagem de erro\par
+            $erro = "Credenciais inv\'e1lidas. Por favor, tente novamente.";\par
+        \}\par
+    \}\par
+\}\par
+?>\par
+\b0\par
+<!DOCTYPE html>\par
+<html lang="pt-br">\par
+<head>\par
+    <meta charset="UTF-8">\par
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\par
+    <title>Login</title>\par
+</head>\par
+<body>\par
+    <h2>Login</h2>\par
+    <form method="post" action\b ="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>\b0 ">\par
+        <label for="usuario">Usu\'e1rio:</label><br>\par
+        <input type="text" id="usuario" name="usuario"><br>\par
+        <label for="senha">Senha:</label><br>\par
+        <input type="password" id="senha" name="senha"><br><br>\par
+        <input type="submit" value="Login">\par
+    </form>\par
+\par
+    \b <?php\par
+    // Exibir mensagem de erro, se houver\par
+    if (isset($erro)) \{\par
+        echo "<p>$erro</p>";\par
+    \}\par
+    ?>\par
+\b0 </body>\par
+</html>\par
+\cf0\par
+\b C\'f3digo PHP fornecido passo a passo:\par
+\b0\par
+\b 1. `session_start();`:\b0  Esta fun\'e7\'e3o inicia ou resume uma sess\'e3o existente. Neste caso, \'e9 utilizada para iniciar uma sess\'e3o, o que permite o armazenamento de vari\'e1veis de sess\'e3o para controlar a autentica\'e7\'e3o do usu\'e1rio.\par
+\par
+\b 2. `if ($_SERVER["REQUEST_METHOD"] == "POST") \{ ... \}`: \b0 Este bloco de c\'f3digo verifica se o m\'e9todo de requisi\'e7\'e3o HTTP \'e9 POST, o que indica que o formul\'e1rio de login foi submetido.\par
+\par
+\b 3. `if (isset($_POST['usuario']) && isset($_POST['senha'])) \{ ... \}`\b0 : Este bloco de c\'f3digo verifica se os campos de usu\'e1rio e senha foram preenchidos no formul\'e1rio de login.\par
+\par
+\b 4. `$usuario_valido = "usuario";`: \b0 Aqui, \'e9 atribu\'eddo um nome de usu\'e1rio v\'e1lido \'e0 vari\'e1vel `$usuario_valido`. Este \'e9 apenas um exemplo e normalmente seria substitu\'eddo por uma verifica\'e7\'e3o em um banco de dados ou outro m\'e9todo de autentica\'e7\'e3o.\par
+\par
+\b 5. `$senha_valida = "senha";`: \b0 Similarmente, \'e9 atribu\'edda uma senha v\'e1lida \'e0 vari\'e1vel `$senha_valida`.\par
+\par
+\b 6. `if ($_POST['usuario'] == $usuario_valido && $_POST['senha'] == $senha_valida) \{ ... \}`: \b0 Este bloco de c\'f3digo verifica se as credenciais fornecidas no formul\'e1rio de login correspondem \'e0s credenciais v\'e1lidas definidas anteriormente.\par
+\par
+\b 7. `$_SESSION['usuario'] = $_POST['usuario'];`: \b0 Se as credenciais forem v\'e1lidas, o nome de usu\'e1rio \'e9 armazenado na vari\'e1vel de sess\'e3o `$_SESSION['usuario']`. Isso permite que o sistema saiba que o usu\'e1rio est\'e1 autenticado e seja poss\'edvel acessar esse valor em outras p\'e1ginas ap\'f3s o login.\par
+\par
+\b 8. `header("Location: index.php");`: \b0 Ap\'f3s a autentica\'e7\'e3o bem-sucedida, o usu\'e1rio \'e9 redirecionado para a p\'e1gina inicial (`index.php`).\par
+\par
+\b 9. `if (isset($erro)) \{ echo "<p>$erro</p>"; \}`: \b0 Este trecho de c\'f3digo exibe uma mensagem de erro caso as credenciais fornecidas sejam inv\'e1lidas.\par
+\par
+\b Em resumo, este c\'f3digo PHP trata da autentica\'e7\'e3o do usu\'e1rio por meio de um formul\'e1rio de login. Ele verifica se as credenciais fornecidas s\'e3o v\'e1lidas, armazena o nome de usu\'e1rio em uma vari\'e1vel de sess\'e3o ap\'f3s o login bem-sucedido e redireciona o usu\'e1rio para a p\'e1gina inicial. Al\'e9m disso, ele exibe uma mensagem de erro caso as credenciais fornecidas sejam inv\'e1lidas.\par
+\b0\par
+\b\fs24 logout.php\par
+\b0\fs22\par
+\cf4\b <?php\par
+// Iniciar a sess\'e3o\par
+session_start();\par
+\par
+// Destruir todas as vari\'e1veis de sess\'e3o\par
+session_unset();\par
+\par
+// Destruir a sess\'e3o\par
+session_destroy();\par
+\par
+// Redirecionar para a p\'e1gina de login\par
+header("Location: login.php");\par
+exit;\par
+?>\par
+\par
+\cf0 Este c\'f3digo PHP \'e9 respons\'e1vel por realizar o logout de um usu\'e1rio autenticado no sistema:\par
+\par
+1. `session_start();`: \b0 Esta fun\'e7\'e3o inicia ou resume uma sess\'e3o existente. \'c9 necess\'e1rio chamar `session_start()` para que as fun\'e7\'f5es de sess\'e3o subsequentes funcionem corretamente.\par
+\par
+\b 2. `session_unset();`: \b0 Esta fun\'e7\'e3o \'e9 usada para remover todas as vari\'e1veis de sess\'e3o. Ela limpa todas as vari\'e1veis de sess\'e3o armazenadas na mem\'f3ria, mas a sess\'e3o em si ainda est\'e1 ativa. Isso garante que todas as informa\'e7\'f5es associadas ao usu\'e1rio sejam removidas da sess\'e3o.\par
+\par
+\b 3. `session_destroy();`: \b0 Esta fun\'e7\'e3o \'e9 usada para destruir completamente a sess\'e3o atual. Ela limpa todas as vari\'e1veis de sess\'e3o e remove o cookie de sess\'e3o, se existir. Depois de chamar `session_destroy()`, a sess\'e3o n\'e3o estar\'e1 mais ativa.\par
+\par
+\b 4. `header("Location: login.php")\b0 ;`: Esta linha redireciona o usu\'e1rio para a p\'e1gina de login (`login.php`) ap\'f3s o logout ser conclu\'eddo com sucesso. O uso da fun\'e7\'e3o `header()` \'e9 para enviar um cabe\'e7alho HTTP de redirecionamento para o navegador, instruindo-o a carregar a p\'e1gina de login.\par
+\par
+\b 5. `exit;`: \b0 Esta fun\'e7\'e3o \'e9 usada para encerrar imediatamente o script PHP. Isso \'e9 importante porque, ap\'f3s o redirecionamento, n\'e3o queremos que o restante do c\'f3digo no script seja executado.\par
+\par
+\b Em resumo, este c\'f3digo realiza as seguintes a\'e7\'f5es:\par
+\par
+- Limpa todas as vari\'e1veis de sess\'e3o associadas ao usu\'e1rio.\par
+- Destr\'f3i completamente a sess\'e3o atual.\par
+- Redireciona o usu\'e1rio para a p\'e1gina de login, garantindo que ele seja deslogado com sucesso do sistema.\par
+\par
+ATIVIDADES:\par
+\par
+
+\pard\qj\b0 1. O que s\'e3o cookies?\par
+2. Qual \'e9 a finalidade da fun\'e7\'e3o setcookies() ?\par
+3. O que \'e9 uma sess\'e3o?.\par
+4. Explique a diferen\'e7a entre cookies e sess\'f5es em PHP em termos de armazenamento de dados. Quais s\'e3o as situa\'e7\'f5es em que voc\'ea escolheria usar cookies em vez de sess\'f5es e vice-versa em um projeto?\par
+5. Explique a import\'e2ncia de definir cookies antes de qualquer sa\'edda no PHP. Qual \'e9 o risco de definir cookies ap\'f3s a sa\'edda?\b\par
+\b0 6. O que \'e9 uma vari\'e1vel de sess\'e3o em PHP? Como ela difere de uma vari\'e1vel comum?\par
+7. Quando voc\'ea usaria cookies no desenvolvimento de um site em PHP? D\'ea exemplos de situa\'e7\'f5es em que os cookies s\'e3o \'fateis.\par
+8. Como voc\'ea finalizaria uma sess\'e3o em PHP? Por que \'e9 importante fazer isso em um aplicativo web?\par
+9. Explique a diferen\'e7a entre session_start() e session_destroy() em PHP. O que cada uma dessas fun\'e7\'f5es faz?\par
+10. Como voc\'ea usaria cookies ou sess\'f5es para lembrar a prefer\'eancia de tema de um usu\'e1rio em um site PHP? D\'ea um exemplo simples de implementa\'e7\'e3o.\par
+\par
+\cf5 1. Cookies s\'e3o pequenos fragmentos de dados que um site ou sistema armazena no navegador do usu\'e1rio. Eles s\'e3o utilizados para diversas finalidades, como manter o estado da sess\'e3o do usu\'e1rio, lembrar prefer\'eancias de navega\'e7\'e3o, rastrear informa\'e7\'f5es de an\'e1lise e personalizar conte\'fado.\par
+\par
+2. A fun\'e7\'e3o `setcookie()` \'e9 utilizada em PHP para definir um cookie. Ela recebe diversos par\'e2metros, como o nome do cookie, o valor, o tempo de expira\'e7\'e3o e outras op\'e7\'f5es. Sua finalidade \'e9 criar ou atualizar um cookie no navegador do usu\'e1rio.\par
+\par
+3. Uma sess\'e3o em PHP \'e9 uma forma de manter o estado da intera\'e7\'e3o do usu\'e1rio com o aplicativo web. Ela permite armazenar informa\'e7\'f5es do usu\'e1rio durante sua visita ao site, como dados de login, prefer\'eancias do usu\'e1rio e outras informa\'e7\'f5es relevantes. As vari\'e1veis de sess\'e3o s\'e3o armazenadas no servidor e associadas a um identificador \'fanico, geralmente um cookie de sess\'e3o no navegador do usu\'e1rio.\par
+\par
+4. Em termos de armazenamento de dados, a principal diferen\'e7a entre cookies e sess\'f5es em PHP \'e9 onde os dados s\'e3o armazenados. Os cookies s\'e3o armazenados no navegador do usu\'e1rio, enquanto as vari\'e1veis de sess\'e3o s\'e3o armazenadas no servidor. \par
+\par
+   Situa\'e7\'f5es em que voc\'ea escolheria usar cookies em vez de sess\'f5es:\par
+   - Para armazenar informa\'e7\'f5es no navegador do usu\'e1rio que n\'e3o s\'e3o sens\'edveis, como prefer\'eancias de idioma, tema do site, etc.\par
+   - Quando \'e9 necess\'e1rio rastrear o comportamento do usu\'e1rio em v\'e1rias visitas ao site, como rastreamento de an\'e1lises ou personaliza\'e7\'e3o de an\'fancios.\par
+   \par
+   Situa\'e7\'f5es em que voc\'ea escolheria usar sess\'f5es em vez de cookies:\par
+   - Para armazenar informa\'e7\'f5es sens\'edveis do usu\'e1rio, como dados de login e informa\'e7\'f5es de carrinho de compras.\par
+   - Quando \'e9 necess\'e1rio manter o estado da sess\'e3o do usu\'e1rio de forma mais segura e centralizada no servidor.\par
+\par
+5. \'c9 importante definir cookies antes de qualquer sa\'edda no PHP porque os cookies s\'e3o enviados para o navegador do usu\'e1rio no cabe\'e7alho HTTP da resposta. Se algum conte\'fado j\'e1 tiver sido enviado para o navegador antes de definir os cookies, o cabe\'e7alho HTTP j\'e1 ter\'e1 sido enviado, e portanto n\'e3o ser\'e1 poss\'edvel definir os cookies. O risco de definir cookies ap\'f3s a sa\'edda \'e9 que o PHP ir\'e1 gerar um erro ou aviso, pois n\'e3o \'e9 poss\'edvel enviar cabe\'e7alhos HTTP ap\'f3s a sa\'edda de conte\'fado.\par
+\par
+6. Uma vari\'e1vel de sess\'e3o em PHP \'e9 uma vari\'e1vel associada \'e0 sess\'e3o atual do usu\'e1rio. Ela difere de uma vari\'e1vel comum porque seu escopo \'e9 limitado \'e0 sess\'e3o do usu\'e1rio e ela \'e9 armazenada no servidor. Isso significa que as vari\'e1veis de sess\'e3o podem ser acessadas em v\'e1rias p\'e1ginas durante a visita do usu\'e1rio ao site, e elas permanecem dispon\'edveis enquanto a sess\'e3o estiver ativa.\par
+\par
+7. Cookies s\'e3o usados no desenvolvimento de um site em PHP em v\'e1rias situa\'e7\'f5es, incluindo:\par
+   - Manter o estado da sess\'e3o do usu\'e1rio, como informa\'e7\'f5es de login e carrinho de compras.\par
+   - Lembrar prefer\'eancias do usu\'e1rio, como idioma, tema do site, etc.\par
+   - Rastrear informa\'e7\'f5es de an\'e1lise, como o comportamento de navega\'e7\'e3o do usu\'e1rio.\par
+   \par
+   Por exemplo, em um site de e-commerce, os cookies podem ser usados para lembrar os produtos adicionados ao carrinho de compras pelo usu\'e1rio.\par
+\par
+8. Para finalizar uma sess\'e3o em PHP, voc\'ea pode utilizar a fun\'e7\'e3o `session_destroy()`. \'c9 importante fazer isso em um aplicativo web para garantir que todas as informa\'e7\'f5es associadas \'e0 sess\'e3o do usu\'e1rio sejam removidas do servidor, evitando poss\'edveis vulnerabilidades de seguran\'e7a, como sess\'f5es inativas ou sess\'f5es cruzadas.\par
+\par
+9. A fun\'e7\'e3o `session_start()` \'e9 utilizada para iniciar uma sess\'e3o existente ou criar uma nova sess\'e3o. Ela precisa ser chamada antes de qualquer sa\'edda no PHP para garantir que as vari\'e1veis de sess\'e3o possam ser utilizadas. J\'e1 a fun\'e7\'e3o `session_destroy()` \'e9 utilizada para destruir completamente uma sess\'e3o existente, removendo todas as vari\'e1veis de sess\'e3o e o cookie de sess\'e3o associado.\par
+\par
+10. Para lembrar a prefer\'eancia de tema de um usu\'e1rio em um site PHP, voc\'ea pode utilizar cookies ou sess\'f5es. Um exemplo simples de implementa\'e7\'e3o utilizando cookies seria definir um cookie com o tema escolhido pelo usu\'e1rio e depois recuperar esse valor sempre que o usu\'e1rio acessar o site. Com sess\'f5es, voc\'ea poderia armazenar o tema preferido do usu\'e1rio em uma vari\'e1vel de sess\'e3o e usar essa informa\'e7\'e3o em todas as p\'e1ginas do site enquanto a sess\'e3o estiver ativa.\par
+\par
+
+\pard\cf0\b\f0 Desafio\par
+\f1 P\'e1gina 1: Salve com o nome index.php\par
+\b0 Fa\'e7a um formul\'e1rio que receba as seguintes informa\'e7\'f5es:\par
+Nome:\par
+Idade:\par
+Peso:\par
+Altura:\par
+Guarde essas informa\'e7\'f5es nas vari\'e1veis de sess\'e3o\par
+\b P\'e1gina 2: Salve com o nome pagina2.php\par
+\b0 Fa\'e7a outro formul\'e1rio com os mesmos campos para digitar os dados de uma outra pessoa e\par
+tamb\'e9m guarde essas informa\'e7\'f5es em vari\'e1veis de sess\'e3o.\par
+\b P\'e1gina 3: Salve com o nome pagina3.php Nesta tela compare e mostre na tela:\par
+\b0 Quem tem uma altura maior\par
+Quem \'e9 mais velho\par
+
+\pard\qj Quem tem o peso maior\cf5\b\par
+}
+ 
